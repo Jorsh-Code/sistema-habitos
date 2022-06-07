@@ -1,4 +1,5 @@
-
+let id_user="";
+if(document.cookie) id_user =  document.cookie.slice(8,document.cookie.length);
 
 const firebaseConfig = {
   apiKey: "AIzaSyCmM5WMFobnt_E1EB2TTM6EkT_CJxM4Yfo",

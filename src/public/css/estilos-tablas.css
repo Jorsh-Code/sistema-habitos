@@ -1,0 +1,19 @@
+table{
+    border-collapse: collapse;
+    width: 90%;
+    border: 0px;
+    margin: auto;
+}
+
+td, th{
+    border: 0;
+    padding: 8px;
+}
+
+th{
+    border-bottom: 1px solid rgba(128, 128, 128, 0.5);
+}
+
+#tabla-habitos-asignados th{
+    color: indigo;
+}

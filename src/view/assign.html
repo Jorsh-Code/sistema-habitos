@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="../public/css/estilos_pagprin.css">
+    <link rel="stylesheet" href="../public/css/estilos-tablas.css">
     <title>Asignar habitos</title>
     <style>
         div {
@@ -14,23 +15,30 @@
             margin: 50px;
         }
 
-        input {
-            border: 1px solid black;
-            margin-right: 20px;
+        select{
+            border: 1px solid rgba(128, 128, 128, 0.5);
+            padding: 5px;
             height: 30px;
+            color: black;
+            border-radius: 5px;
+            background-color: white;
         }
 
-        table {
-            border: 1px solid black;
-            width: 500px;
-            margin: auto;
+        button{
+            padding: 5px;
+            margin: 15px;
+            border-color: rgb(42, 131, 247);
+            background-color: white;
+            border-radius: 5px;
+            font-size: 15px;
         }
 
-        th,
-        td {
-            border: 1px solid black;
-            text-align: center;
+        button:hover{
+            background-color: rgb(42, 131, 247);
+            color: white;
+            transition: 0.3s;
         }
+        
     </style>
 </head>
 
@@ -52,29 +60,24 @@
 
     </header>
     <main>
-
-        <h2 class="subtitulo">Asignar hábitos</h2>
+        
+        <div id='titulo'>
+            <h2 class="subtitulo">Asignar hábitos</h2>
+            <h2 class="subtitulo" id='nombre-estudiante'></h2>
+        </div>
+        
+        
         <div id="seleccion">
-
-
-
-
+            <select name="grupo" id="select-grupo"></select>
+            <select  id="select-alumno"></select>
         </div>
 
-        <table id=tabla>
-            <caption>Lista de hábitos asignados</caption>
-            <tr>
-                <th>Boleta</th>
-                <th>Resultados de pruebas</th>
-                <th>Hábito</th>
-                <th>Decripción</th>
-                <th>Numero de dias</th>
-                <th>Comentario</th>
-                <th>Opcion</th>
-            </tr>
+        <table id="tabla-bieps" style="display: none;">
+            
+        </table>
 
-
-
+        <table id="tabla-habitos-asignados" style="display: none; margin: auto;">
+            
         </table>
 
         <script>
@@ -185,8 +188,9 @@ del_tr = function (obj) {// Devuelto es el objeto de la etiqueta a
     </footer>
     <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-firestore.js"></script>
     <script src="../method/conecction.js"></script>
-    <script src="../method/auth.js"></script>
+    <script src="../method/assign.js"></script>
     <script src="../public/js/menu-index.js"></script>
     <script src="../public/js/lightbox-index.js"></script>
 

@@ -17,12 +17,13 @@ btn_signup.onclick = function(){
             email
         })
         .then(() => {
-            //console.log("Document successfully written!");
+            document.cookie = "id_user=" + employee_number;
             pass = 0;
         })
         .catch((error) => {
             console.error("Error writing document: ", error);
         });
+
         var user = userCredential.user;
         location.href = '../view/index.html';
         //console.log("user");
