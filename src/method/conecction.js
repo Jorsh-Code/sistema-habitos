@@ -1,5 +1,14 @@
 let id_user="";
-if(document.cookie) id_user =  document.cookie.slice(8,document.cookie.length);
+if(document.cookie) { 
+  const cookies = document.cookie.split(';');
+  for(let i = 0; i < cookies.length; i++){
+    if(cookies[i].indexOf('id_user') != -1){
+      id_user =  cookies[i].slice(8,cookies[i].length);
+      break;
+    }
+  }
+  
+}
 
 const firebaseConfig = {
   apiKey: "AIzaSyCmM5WMFobnt_E1EB2TTM6EkT_CJxM4Yfo",
