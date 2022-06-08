@@ -47,11 +47,11 @@
     <header class="header" id="inicio">
         <img class="hamburguer" src="../public/img/hamburguesa.svg" alt="">
         <nav class="menu-navegacion">
-            <a href="./signup.html">Alumnos</a>
+            <a href="./students.html">Alumnos</a>
             <a href="./assign.html">Asignar Habitos</a>
             <a href="./validation.html">Validar Evidencia</a>
-            <a href="./signup.html">Consultar progreso</a>
-            <a href="./signup.html">Cerrar sesión</a>
+            <a href="./progress.html">Consultar progreso</a>
+            <a onclick="logout()">Cerrar sesión</a>
         </nav>
         <div class="contenedor head">
             <h1 class="titulo">Asignar Hábitos</h1>
@@ -80,88 +80,7 @@
             
         </table>
 
-        <script>
-            /*  let i = 1;
-document.getElementById("add").onclick = function () {     
-    // Agrega un evento de clic al botón
-    // Obtiene el valor del cuadro de entrada
-    var id_text = document.getElementById("alumno").value;
-    var _nom = document.getElementById("habito");
-    var name_text = _nom.options[_nom.selectedIndex].text;
-    var _nome = document.getElementById(document.getElementById("habito").value).textContent;
-    var sex_text = _nome;
-    
 
-    // Para instalar id en td, primero cree el nodo td
-    var td_id_node = document.createElement("td");
-    // El valor ingresado es texto, no un nodo. Si desea agregarlo a través de un nodo, debe convertirse en un nodo de texto
-    var id_text_node = document.createTextNode(id_text);
-    // Agregar nodo de identificación
-    td_id_node.appendChild(id_text_node);
-
-    
-    var td_name_node = document.createElement("td");
-    var name_text_node = document.createTextNode(name_text);
-    td_name_node.appendChild(name_text_node);
-
-    var td_sex_node = document.createElement("td");
-    var sex_text_node = document.createTextNode(sex_text);
-    td_sex_node.appendChild(sex_text_node);
-
-    var td_result_node = document.createElement("td");
-    var result_text_node = document.createTextNode("xdxdxdxdxdxdx");
-    td_result_node.appendChild(result_text_node);
-
-    var td_comment_node = document.createElement("td");
-    var comment_input_node = document.createElement("input");
-    td_comment_node.appendChild(comment_input_node);
-
-    var td_days_node = document.createElement("td");
-    var days_input_node = document.createElement("input");
-    td_days_node.appendChild(days_input_node);
-
-    var ele_a = document.createElement("a");
-    ele_a.setAttribute("href","javascript:void(0);");
-    ele_a.setAttribute("onclick","del_tr(this);");
-    var del_node = document.createTextNode("Eliminar");
-    ele_a.appendChild(del_node);
-    var td_del_node = document.createElement("td");
-    td_del_node.appendChild(ele_a);
-
-    var insert_boton = document.createElement("a");
-    insert_boton.setAttribute("href","javascript:void(0);");
-    insert_boton.setAttribute("onclick","saveEstudiantes('11', 'Nombre','email')");
-    var insert_node = document.createTextNode("guardar");
-    insert_boton.appendChild(insert_node);
-    td_del_node.appendChild(insert_boton);
-
-
-    var tr_node = document.createElement("tr");
-    tr_node.setAttribute("id","file"+i);
-    // tr agregar td
-    tr_node.appendChild(td_id_node);
-    tr_node.appendChild(td_result_node);
-    tr_node.appendChild(td_name_node);
-    tr_node.appendChild(td_sex_node);
-    tr_node.appendChild(td_days_node);
-    tr_node.appendChild(td_comment_node);
-    tr_node.appendChild(td_del_node);
-    
-
-
-    // tabla agrega tr, hay una tabla, para convertirse en un nodo
-    var table_node = document.getElementsByTagName("table")[0];
-    table_node.appendChild(tr_node);     
-   
-  
-}
-del_tr = function (obj) {// Devuelto es el objeto de la etiqueta a
-    // Eliminar nodos secundarios a través del nodo principal
-    // Elimina tr a través de la tabla, obtén el nodo de la tabla primero
-    var table_node = obj.parentNode.parentNode.parentNode;
-    table_node.removeChild(obj.parentNode.parentNode);
-}*/
-        </script>
         <br><br><br>
     </main>
     <footer id="footer">

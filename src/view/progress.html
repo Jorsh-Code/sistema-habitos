@@ -8,11 +8,13 @@
     <link href='https://unpkg.com/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="../public/css/estilos_pagprin.css">
     <link rel="stylesheet" href="../public/css/estilos-tablas.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.0/dist/chart.min.js"></script>
     <title>Asignar habitos</title>
     <style>
         div {
             text-align: center;
-            margin: 50px;
+            margin: auto;
+            margin-top: 20px;
         }
 
         select{
@@ -54,41 +56,27 @@
             <a onclick="logout()">Cerrar sesión</a>
         </nav>
         <div class="contenedor head">
-            <h1 class="titulo">Administrar Alumnos</h1>
-            <p class="copy">Crea y administra tus grupos para que se integren tus Alumnos</p>
+            <h1 class="titulo">Progreso de los Estudiantes</h1>
+            <p class="copy">Paso a paso y meta a meta</p>
         </div>
 
     </header>
     <main>
         
         <div id='titulo'>
-            <h2 class="subtitulo">Grupos y Alumnos</h2>
-            <h2 class="subtitulo" id='grupo'></h2>
+            <h2 class="subtitulo">Pogreso</h2>
+            <h2 class="subtitulo" id='nombre-estudiante'></h2>
         </div>
-        
         
         <div id="seleccion">
-            <input type="date" id="fecha-registro" style="width: 300px; height: 35px;" title="fecha de registro" >
-            <input type="text" id="nombre-grupo" value="" placeholder="Nombre del grupo" style="width: 300px; height: 35px;">
-            <button onclick="crearGrupo()">Crear grupo</button>
-            <br><br>
-            <label for="ver-todos">Ver todos</label>
-            <input type="checkbox" name="ver-todos" id="ver-todos" style="width: 20px; height: 20px;" onclick="getAllGrupos()">
+            <select name="grupo" id="select-grupo"></select>
+            <select  id="select-alumno"></select>
+            <select name="" id="select-habito" style="opacity: 0;"></select>
+        </div>
+        <div style="width: 300px;height: 300px; display: none;" id="canva">
             
         </div>
-        <div id="regresar" style="display: none;">
-            <button onclick="regresar()">regresar</button>
-        </div>
-        <table id="tabla-grupos" style="display: none;">
-            
-        </table>
-
-        <table id="tabla-alumnos" style="display: none; margin: auto;">
-            
-        </table>
-
-        
-        <br><br><br>
+        <br><br><br><br><br><br><br>
     </main>
     <footer id="footer">
         <div class="contenedor footer-content">
@@ -116,12 +104,10 @@
     <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-firestore.js"></script>
     <script src="../method/conecction.js"></script>
-    <script src="../method/student.js"></script>
+    <script src="../method/progress.js"></script>
     <script src="../public/js/menu-index.js"></script>
     <script src="../public/js/lightbox-index.js"></script>
 
 </body>
 
 </html>
-
-

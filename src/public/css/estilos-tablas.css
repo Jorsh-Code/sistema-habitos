@@ -3,6 +3,7 @@ table{
     width: 90%;
     border: 0px;
     margin: auto;
+    
 }
 
 td, th{
@@ -28,4 +29,8 @@ input{
 
 input:hover{
     border-color: hotpink;
+}
+
+#tabla-grupos{
+    width: 500px;
 }

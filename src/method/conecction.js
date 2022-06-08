@@ -13,6 +13,17 @@ const firebaseConfig = {
 const app = firebase.initializeApp(firebaseConfig);
 const db  = firebase.firestore();
 
+
+function logout(){
+  app.auth().signOut().
+  then(() => {
+    location.href = './index.html';
+  }).catch((error) => {
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    window.alert(errorMessage);
+  });
+}
 /*const firebaseConfig = {
    apiKey: "AIzaSyCmM5WMFobnt_E1EB2TTM6EkT_CJxM4Yfo",
    authDomain: "proyecto-joven-uwu.firebaseapp.com",

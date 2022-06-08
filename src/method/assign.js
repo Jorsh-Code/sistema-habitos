@@ -181,7 +181,7 @@ function getHabitosAsignados(correo){
                 <td><input type="text" value="${doc.data().Fecha_de_inicio}"></td>
                 <td><input type="text" value="${doc.data().Comentarios}"></td>
                 <td>
-                <button onclick="editarHabito('${doc.id}')">Editar</button>
+                <button onclick="editarHabito('${doc.id}')">Actualizar</button>
                 <button onclick="eliminarHabito('${doc.id}')">Eliminar</button></td>
                 </tr>
                 `;    
@@ -198,6 +198,7 @@ function getHabitosAsignados(correo){
 function eliminarHabito(id_doc){
     const Correo =  id_doc.split('-')[0];
     db.collection("Habitos_Asignados").doc(id_doc).delete().then(() => {
+        alert('Habito Eliminado');
         getHabitosAsignados(Correo);
     }).catch((error) => {
         console.error("Error removing document: ", error);
@@ -224,6 +225,7 @@ function editarHabito(id_doc){
             Periodo 
     })
     .then(() => {
+        alert('Habito Actualizado');
         getHabitosAsignados(Correo);
     })
     .catch((error) => {
