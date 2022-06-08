@@ -40,7 +40,7 @@ function getAlumnos(grupo){
 function getDataEstudiantes(id_doc){
     document.getElementById('nombre-estudiante').innerText = document.getElementById(id_doc).textContent;
     getBieps(id_doc);
-    getGruposHabitos();
+    getGruposHabitos(id_doc);
     getHabitosAsignados(id_doc);
 
 }
@@ -117,20 +117,36 @@ function getHabitos(id_doc){
 
 function asinarHabito(correo){
     const id_hab = document.getElementById('select-habito').value.split('-');
-    const id_doc = correo+'-'+id_hab[1];
+    const id_doc = correo+'-'+id_hab[0];
     const Nombre = id_hab[1];
     const Dias = 21;
-    const Fecha_de_inicio = new Date();
+    const Fecha_de_inicio = '2022-01-01';
     
     let Descripcion = '';
     db.collection("Habitos").doc(id_hab[2])
     .get()
     .then((data) => {
-        //console.log(data.data());
         for(habs in data.data()){
-            if(habs == id_hab[1]) Descripcion = data.data()[hab].Descripcion;
-            break;
+            if(habs == id_hab[1]) {
+                Descripcion = data.data()[hab].Descripcion;
+                break;
+            }
         }
+        db.collection("Habitos_Asignados").doc(id_doc).set({
+            Comentarios: '',
+            Correo: correo,
+            Descripcion,
+            Dias,
+            Fecha_de_inicio,
+            Nombre,
+            Periodo: 'Cada 1 día' 
+        })
+        .then(() => {
+            getHabitosAsignados(correo);
+        })
+        .catch((error) => {
+            console.error("Error writing document: ", error);
+        });
 
     })
     .catch((error) => {
@@ -141,12 +157,10 @@ function asinarHabito(correo){
 }
 
 function getHabitosAsignados(correo){
-    console.log('correo '+correo);
     db.collection("Habitos_Asignados").where("Correo", "==", correo)
         .get()
         .then((querySnapshot) => {
-            let txt = `
-            
+            let txt = `           
             <tr style="text-align: center;">
                 <th>Habito</th>
                 <th>Decripción</th>
@@ -162,10 +176,13 @@ function getHabitosAsignados(correo){
                 <tr style="text-align: center;" id="${doc.id}">
                 <td>${doc.data().Nombre}</td>
                 <td style="text-align: justify;">${doc.data().Descripcion}</td>
-                <td>${doc.data().Dias}</td>
-                <td>${doc.data().Periodo}</td>
-                <td>${doc.data().Fecha_de_inicio}</td>
-                <td>${doc.data().Comentarios}</td>
+                <td><input type="text" value="${doc.data().Dias}"></td>
+                <td><input type="text" value="${doc.data().Periodo} "></td>
+                <td><input type="text" value="${doc.data().Fecha_de_inicio}"></td>
+                <td><input type="text" value="${doc.data().Comentarios}"></td>
+                <td>
+                <button onclick="editarHabito('${doc.id}')">Editar</button>
+                <button onclick="eliminarHabito('${doc.id}')">Eliminar</button></td>
                 </tr>
                 `;    
                 //console.log(doc.id, " => ", doc.data());
@@ -176,4 +193,41 @@ function getHabitosAsignados(correo){
         .catch((error) => {
             console.log("Error getting documents: ", error);
     }); 
+}
+
+function eliminarHabito(id_doc){
+    const Correo =  id_doc.split('-')[0];
+    db.collection("Habitos_Asignados").doc(id_doc).delete().then(() => {
+        getHabitosAsignados(Correo);
+    }).catch((error) => {
+        console.error("Error removing document: ", error);
+    });
+}
+
+function editarHabito(id_doc){
+    const padre = document.getElementById(id_doc);
+    const Nombre = padre.children[0].textContent;
+    const Descripcion = padre.children[1].textContent;
+    const Dias = padre.children[2].firstChild.value;
+    const Periodo = padre.children[3].firstChild.value;
+    const Fecha_de_inicio =  padre.children[4].firstChild.value;
+    const Comentarios =  padre.children[5].firstChild.value
+    const Correo =  id_doc.split('-')[0];
+    console.log(Correo);
+    db.collection("Habitos_Asignados").doc(id_doc).set({
+            Comentarios,
+            Correo,
+            Descripcion,
+            Dias,
+            Fecha_de_inicio,
+            Nombre,
+            Periodo 
+    })
+    .then(() => {
+        getHabitosAsignados(Correo);
+    })
+    .catch((error) => {
+        console.error("Error writing document: ", error);
+    });
+
 }
