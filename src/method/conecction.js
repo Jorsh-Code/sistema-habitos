@@ -3,7 +3,8 @@ if(document.cookie) {
   const cookies = document.cookie.split(';');
   for(let i = 0; i < cookies.length; i++){
     if(cookies[i].indexOf('id_user') != -1){
-      id_user =  cookies[i].slice(8,cookies[i].length);
+      id_user = cookies[i].slice(8,cookies[i].length);
+      console.log(id_user);
       break;
     }
   }

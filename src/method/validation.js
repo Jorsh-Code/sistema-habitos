@@ -72,7 +72,7 @@ function getEvidencias(...args){
                 <td><img src="${doc.data().Link}" alt="img" style="width: 200px;;height: 200px;"></td>
                 <td>${doc.data().Nombre_habito}</td>
                 <td>${doc.data().Fecha_de_registro}</td>
-                <td><input type="text" value="${doc.data().Comentarios}"></td>
+                <td><input id="comentario-evidencia" type="text" value="${doc.data().Comentarios}"></td>
                 <td><button onclick="validarEvidencia('${doc.id}')">Validar</button><br>
                 </tr>
                 `;
@@ -89,8 +89,10 @@ function getEvidencias(...args){
 function validarEvidencia(id){
     const arr = id.split('-');
     const id_doc = arr[0]+'-'+arr[1]+'-'+arr[2];
+    console.log(document.getElementById('comentario-evidencia').value);
     db.collection("Evidencias").doc(id_doc).update({
-        Estatus: 'Valido'
+        Estatus: 'Valido',
+        Comentarios: document.getElementById('comentario-evidencia').value
     })
     .then(() => {
         alert('Evidencia Validada');
