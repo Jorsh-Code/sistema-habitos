@@ -6,7 +6,7 @@ app.auth().onAuthStateChanged((user) => {
             let txt = "";
             let init = 1;
             querySnapshot.forEach((doc) => {
-                txt += `<option value=${doc.data().id} onclick="getAlumnos('${doc.data().id}')">${doc.data().grupo}</option>`;
+                txt += `<option value=${doc.data().id} >${doc.data().grupo}</option>`;
                 if(init===1){ getAlumnos(doc.data().id); init++; } 
                 //console.log(doc.id, " => ", doc.data());
             });
@@ -20,14 +20,16 @@ app.auth().onAuthStateChanged((user) => {
     }
 });
 
-function getAlumnos(grupo){
+function getAlumnos(...args){
     //console.log(grupo);
+    let grupo;
+    args[0] != undefined ? grupo = args[0] : grupo = document.getElementById('select-grupo').value;
     db.collection("Estudiantes").where("id_grupo", "==", grupo).where('Profesor','==',id_user)
     .get()
     .then((querySnapshot) => {
         let txt = "";
         querySnapshot.forEach((doc) => {
-            txt += `<option id="${doc.id}" value="${doc.id}" onclick="getEvidencias('${doc.id}')">${doc.data().Nombre}</option>`;
+            txt += `<option id="${doc.id}" value="${doc.id}" >${doc.data().Nombre}</option>`;
             //console.log(doc.id, " => ", doc.data());
         });
             document.getElementById('select-alumno').innerHTML =  txt;
@@ -37,7 +39,9 @@ function getAlumnos(grupo){
     });    
 }
 
-function getEvidencias(correo){
+function getEvidencias(...args){
+    let correo;
+    args[0] != undefined ? correo = args[0] : correo = document.getElementById('select-alumno').value;
     db.collection("Evidencias").where('Correo','==',correo)
     .get()
     .then((querySnapshot) => {

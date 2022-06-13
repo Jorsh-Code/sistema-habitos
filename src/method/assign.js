@@ -6,7 +6,7 @@ app.auth().onAuthStateChanged((user) => {
             let txt = "";
             let init = 1;
             querySnapshot.forEach((doc) => {
-                txt += `<option value=${doc.data().id} onclick="getAlumnos('${doc.data().id}')">${doc.data().grupo}</option>`;
+                txt += `<option value=${doc.data().id}>${doc.data().grupo}</option>`;
                 if(init===1){ getAlumnos(doc.data().id); init++; } 
                 //console.log(doc.id, " => ", doc.data());
             });
@@ -20,14 +20,16 @@ app.auth().onAuthStateChanged((user) => {
     }
 });
 
-function getAlumnos(grupo){
+function getAlumnos(...args){
+    let grupo;
+    args[0] != undefined ? grupo = args[0] : grupo = document.getElementById('select-grupo').value;
     //console.log(grupo);
     db.collection("Estudiantes").where("id_grupo", "==", grupo).where('Profesor','==',id_user)
     .get()
     .then((querySnapshot) => {
         let txt = "";
         querySnapshot.forEach((doc) => {
-            txt += `<option id="${doc.id}" value="${doc.id}" onclick="getDataEstudiantes('${doc.id}')">${doc.data().Nombre}</option>`;
+            txt += `<option id="${doc.id}" value="${doc.id}">${doc.data().Nombre}</option>`;
             //console.log(doc.id, " => ", doc.data());
         });
             document.getElementById('select-alumno').innerHTML =  txt;
@@ -37,7 +39,8 @@ function getAlumnos(grupo){
     });    
 }
 
-function getDataEstudiantes(id_doc){
+function getDataEstudiantes(){
+    const id_doc = document.getElementById('select-alumno').value;
     document.getElementById('nombre-estudiante').innerText = document.getElementById(id_doc).textContent;
     getBieps(id_doc);
     getGruposHabitos(id_doc);
@@ -79,13 +82,14 @@ function getBieps(id_doc){
 }
 
 function getGruposHabitos(id_doc){
+    
     db.collection("Habitos")
     .get()
     .then((querySnapshot) => {
-        let txt = '<select>';
+        let txt = '<select onchange="getHabitos()" id="select-grupo-habitos" >';
         let init = 0;
         querySnapshot.forEach((doc) => {
-            txt += `<option value=${doc.id} onclick="getHabitos('${doc.id}')">${doc.id}</option>`;
+            txt += `<option value="${doc.id}">${doc.id}</option>`;
             if(init===0) getHabitos(doc.id); init++;
         });
         txt += `</select> <select id="select-habito"> </select> <br> <button onclick="asinarHabito('${id_doc}')">Asignar</button>`;
@@ -96,7 +100,9 @@ function getGruposHabitos(id_doc){
     }); 
 }
 
-function getHabitos(id_doc){
+function getHabitos(...args){
+    let id_doc;
+    args[0] != undefined ? id_doc = args[0] : id_doc = document.getElementById('select-grupo-habitos').value;
     db.collection("Habitos").doc(id_doc)
     .get()
     .then((data) => {

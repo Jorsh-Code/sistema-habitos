@@ -6,7 +6,7 @@ app.auth().onAuthStateChanged((user) => {
             let txt = "";
             let init = 1;
             querySnapshot.forEach((doc) => {
-                txt += `<option value=${doc.data().id} onclick="getAlumnos('${doc.data().id}')">${doc.data().grupo}</option>`;
+                txt += `<option value=${doc.data().id} >${doc.data().grupo}</option>`;
                 if(init===1){ getAlumnos(doc.data().id); init++; } 
                 //console.log(doc.id, " => ", doc.data());
             });
@@ -22,8 +22,10 @@ app.auth().onAuthStateChanged((user) => {
 
 let data_evidencia = [10,10,10];
 
-function getAlumnos(grupo){
+function getAlumnos(...args){
     //console.log(grupo);
+    let grupo;
+    args[0] != undefined ? grupo = args[0] : grupo = document.getElementById('select-grupo').value;
     document.getElementById('select-habito').innerHTML = '';
     document.getElementById('select-habito').style.opacity = '0';
     document.getElementById('canva').innerHTML = '';
@@ -32,7 +34,7 @@ function getAlumnos(grupo){
     .then((querySnapshot) => {
         let txt = '';
         querySnapshot.forEach((doc) => {
-            txt += `<option id="${doc.id}" value="${doc.id}" onclick="getHabitosAsignados('${doc.id}')">${doc.data().Nombre}</option>`;
+            txt += `<option id="${doc.id}" value="${doc.id}" >${doc.data().Nombre}</option>`;
             //console.log(doc.id, " => ", doc.data());
         });
             document.getElementById('select-alumno').innerHTML =  txt;
@@ -42,14 +44,16 @@ function getAlumnos(grupo){
     });    
 }
 
-function getHabitosAsignados(correo){
+function getHabitosAsignados(...args){
+    let correo;
+    args[0] != undefined ? correo = args[0] : correo = document.getElementById('select-alumno').value;
     db.collection("Habitos_Asignados").where("Correo", "==", correo)
         .get()
         .then((querySnapshot) => {
             let txt = '';
             querySnapshot.forEach((doc) => {
                 txt += `
-                <option id="${doc.id}" value="${doc.id}" onclick="getEvidencias('${correo+'-'+doc.data().Nombre+'-'+doc.data().Dias}')">${doc.data().Nombre}</option>
+                <option id="${doc.id}" value="${correo+'-'+doc.data().Nombre+'-'+doc.data().Dias}">${doc.data().Nombre}</option>
                 `;    
                 
             });
@@ -61,7 +65,8 @@ function getHabitosAsignados(correo){
     }); 
 }
 
-function getEvidencias(id){
+function getEvidencias(){
+    const id = document.getElementById('select-habito').value;
     db.collection("Evidencias").where('Correo','==',id.split('-')[0]).where('Nombre_habito','==',id.split('-')[1])
     .get()
     .then((querySnapshot) => {
@@ -76,7 +81,7 @@ function getEvidencias(id){
             }
             
         });
-        data_evidencia = [ev,env,parseInt(id.split('-')[2])];
+        data_evidencia = [ev,env,parseInt(id.split('-')[2])-ev-env];
         document.getElementById('canva').style.display = 'block' ;
         document.getElementById('canva').innerHTML = `<h1 id="titulo-grafica">${id.split('-')[1]}</h1>
         <canvas id="myChart" style="box-sizing: border-box;"></canvas>

@@ -69,9 +69,9 @@
         </div>
         
         <div id="seleccion">
-            <select name="grupo" id="select-grupo"></select>
-            <select  id="select-alumno"></select>
-            <select name="" id="select-habito" style="opacity: 0;"></select>
+            <select name="grupo" id="select-grupo" onchange="getAlumnos()"></select>
+            <select  id="select-alumno" onchange="getHabitosAsignados()"></select>
+            <select name="" id="select-habito" style="opacity: 0;" onchange="getEvidencias()"></select>
         </div>
         <div style="width: 300px;height: 300px; display: none;" id="canva">
             
