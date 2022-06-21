@@ -57,10 +57,10 @@ function getBieps(id_doc){
     .then((data) => {
         let txt = `
             <tr>
-                <th>Biep 1</th>
-                <th>Biep 2</th>
-                <th>Biep 3</th>
-                <th>Biep 4</th>
+                <th>Aceptación/Control</th>
+                <th>Autonomía</th>
+                <th>Vínculos</th>
+                <th>Proyectos</th>
             </tr>
             <tr style="text-align: justify;">
         `;
