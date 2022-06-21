@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="../public/css/style_logginyregistro.css">
-  <title>Formulario Registro</title>
+  <link rel="stylesheet" href="{{ url_for('static',filename='css/style_logginyregistro.css') }}">
+  <title>Iniciar sesion</title>
 </head>
 <body>
   <section class="form-register">
@@ -17,12 +17,12 @@
 	<a><font color="white">Ingresar</font></a>
 	<br>
 	<button class="botons" value="Registrarme">
-	<a href="./signup.html"><font color="white">Registrarme</font></a>
+	<a href="/signup"><font color="white">Registrarme</font></a>
   </section>
   <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-firestore.js"></script>
-  <script src="../method/conecction.js"></script>
-  <script src="../method/signin.js"></script>
+  <script src="{{ url_for('static',filename='method/conecction.js') }}"></script>
+  <script src="{{ url_for('static',filename='method/signin.js') }}"></script>
 </body>
 </html>

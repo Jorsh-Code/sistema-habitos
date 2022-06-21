@@ -4,10 +4,11 @@ app.auth().onAuthStateChanged((user) => {
         .get()
         .then((querySnapshot) => {
             let txt = "";
-            let init = 1;
+            let init = true;
             querySnapshot.forEach((doc) => {
                 txt += `<option value=${doc.data().id} >${doc.data().grupo}</option>`;
-                if(init===1){ getAlumnos(doc.data().id); init++; } 
+                if(init){ getAlumnos(doc.data().id);init=false; } 
+                location.href = '#head';
                 //console.log(doc.id, " => ", doc.data());
             });
             document.getElementById('select-grupo').innerHTML =  txt;
@@ -27,9 +28,11 @@ function getAlumnos(...args){
     db.collection("Estudiantes").where("id_grupo", "==", grupo).where('Profesor','==',id_user)
     .get()
     .then((querySnapshot) => {
-        let txt = "";
+        let txt = '';
+        init = true;
         querySnapshot.forEach((doc) => {
             txt += `<option id="${doc.id}" value="${doc.id}" >${doc.data().Nombre}</option>`;
+            if(init){ getHabitosAsignados(doc.id); init=false}
             //console.log(doc.id, " => ", doc.data());
         });
             document.getElementById('select-alumno').innerHTML =  txt;
@@ -39,13 +42,33 @@ function getAlumnos(...args){
     });    
 }
 
-function getEvidencias(...args){
-    let correo;
+function getHabitosAsignados(...args){
+    
     args[0] != undefined ? correo = args[0] : correo = document.getElementById('select-alumno').value;
-    db.collection("Evidencias").where('Correo','==',correo)
+    db.collection("Habitos_Asignados").where("Correo", "==", correo)
+        .get()
+        .then((querySnapshot) => {
+            let txt = '<option>-Elija un habito-</option>';
+            querySnapshot.forEach((doc) => {
+                txt += `<option id="${doc.id}" value="${doc.id}" >${doc.data().Nombre}</option>`;    
+                //console.log(doc.id, " => ", doc.data());
+            });
+            document.getElementById('select-habito').innerHTML =  txt;
+        })
+        .catch((error) => {
+            console.log("Error getting documents: ", error);
+    }); 
+}
+
+
+function getEvidencias(){
+    const correo = document.getElementById('select-habito').value.split('-')[0];
+    const id_hab = document.getElementById('select-habito').value.split('-')[1];
+    /*gs://proyecto-joven-uwu.appspot.com/the.hit.boyx@gmail.com/Donar sangre/IMG_20220602_205252.jpg*/
+    db.collection("Evidencias").where('Correo','==',correo).where('id_habito','==',id_hab)
     .get()
     .then((querySnapshot) => {
-        //console.log(querySnapshot.data());
+        //console.log(querySnapshot);
         let txt = `
         <tr>
             <th>Evidencia</th>
@@ -54,13 +77,21 @@ function getEvidencias(...args){
             <th>Comentarios</th>
             <th></th>
         </tr>
-    `;
-         querySnapshot.forEach((doc) => {
+        `;
+        //console.log(querySnapshot);
+        //console.log()
+        querySnapshot.forEach((doc) => {
+            //console.log(doc.id);
             if(doc.data().Estatus == 'Valido'){
                 txt += `
-                <tr style="text-align: center;" id="${doc.id}">
-                <td><img src="${doc.data().Link}" alt="img" style="width: 200px;;height: 200px;"></td>
-                <td>${doc.data().Nombre_habito}</td>
+                <tr style="text-align: center;" id="${doc.id}">`
+                if(doc.data().Link.search(/\.(jpg|jpeg|png|svg|avif)/) != -1){
+                    txt += `<td><img src="${doc.data().Link}" alt="img" style="width: 200px;;height: 200px;"></td>`;
+                }else{
+                    txt += `<td><a target="_blank" href="${doc.data().Link}">ver documento</a></td>`;
+                }
+               
+               txt += `<td>${doc.data().Nombre_habito}</td>
                 <td>${doc.data().Fecha_de_registro}</td>
                 <td>${doc.data().Comentarios}</td>
                 <td>Valido</td>
@@ -68,12 +99,17 @@ function getEvidencias(...args){
                 `;
             }else{
                 txt += `
-                <tr style="text-align: center;" id="${doc.id}">
-                <td><img src="${doc.data().Link}" alt="img" style="width: 200px;;height: 200px;"></td>
-                <td>${doc.data().Nombre_habito}</td>
+                <tr style="text-align: center;" id="${doc.id}">`
+                if(doc.data().Link.search(/\.(jpg|jpeg|png|svg|avif)/) != -1){
+                    txt += `<td><img src="${doc.data().Link}" alt="img" style="width: 200px;;height: 200px;"></td>`;
+                }else{
+                    txt += `<td><a target="_blank" href="${doc.data().Link}">ver documento</a></td>`;
+                }
+               
+               txt += `<td>${doc.data().Nombre_habito}</td>
                 <td>${doc.data().Fecha_de_registro}</td>
-                <td><input id="comentario-evidencia" type="text" value="${doc.data().Comentarios}"></td>
-                <td><button onclick="validarEvidencia('${doc.id}')">Validar</button><br>
+                <td><textarea style="padding:5px" name="" id="Comentarios" cols="30" rows="5" ></textarea></td>
+                <td><button onclick="validarEvidencia('${doc.id}')">Validar</button><br></td>
                 </tr>
                 `;
             }

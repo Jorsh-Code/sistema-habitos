@@ -32,7 +32,7 @@ function getAlumnos(...args){
     db.collection("Estudiantes").where("id_grupo", "==", grupo).where('Profesor','==',id_user)
     .get()
     .then((querySnapshot) => {
-        let txt = '';
+        let txt = '<option>-Elija un alumno-</option>';
         querySnapshot.forEach((doc) => {
             txt += `<option id="${doc.id}" value="${doc.id}" >${doc.data().Nombre}</option>`;
             //console.log(doc.id, " => ", doc.data());

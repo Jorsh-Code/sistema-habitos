@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="../public/css/style_logginyregistro.css">
+  <link rel="stylesheet" href="{{ url_for('static',filename='css/style_logginyregistro.css') }}">
   <title>Formulario Registro</title>
 </head>
 <body>
@@ -18,14 +18,14 @@
     <p>Estoy de acuerdo con <a href="#">Terminos y Condiciones</a></p>
     <button class="botons" id="btn-signup"> Registrar</button>
     <!-- <input class="botons"  value="Registrar"> -->
-    <p><a href="signin.html">¿Ya tengo Cuenta?</a></p>
+    <p><a href="/signin">¿Ya tengo Cuenta?</a></p>
   </section>
 
   <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-firestore.js"></script>
-  <script src="../method/conecction.js"></script>
-  <script src="../method/signup.js"></script>
+  <script src="{{ url_for('static',filename='method/conecction.js') }}"></script>
+  <script src="{{ url_for('static',filename='method/signup.js') }}"></script>
 
 </body>
 </html>

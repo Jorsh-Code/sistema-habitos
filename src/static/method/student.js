@@ -2,8 +2,9 @@
 app.auth().onAuthStateChanged((user) => {
     if (user) {
         getGrupos();
+        location.href = '#head';
     }else{
-        location.href = './index.html';
+        location.href = '/';
     }
 });
 
@@ -15,7 +16,7 @@ function getGrupos(){
             let txt = `           
             <tr style="text-align: center;">
                 <th>Fecha de registro</th>
-                <th>Fecha de registro</th>
+                <th>Grupo</th>
                 <th></th>
             </tr>
             `;
@@ -25,7 +26,7 @@ function getGrupos(){
                 <td>${doc.data().fecha_registro}</td>
                 <td>${doc.data().grupo}</td>
                 <td><button onclick="verAlumnos('${doc.id}')">Ver Alumnos</button><br>
-                <button onclick="desGrupo('${doc.id}')">Deshabilitar</button></td>
+                <button onclick="eliminarGrupo('${doc.id}')">Eliminar</button></td>
                 </tr>
                 `;
                 
@@ -43,13 +44,13 @@ function getGrupos(){
 
 function crearGrupo(){
     const grupo  = document.getElementById('nombre-grupo').value;
-    const fecha_registro =  document.getElementById('fecha-registro').value;
+    const fecha_registro =  getFecha();
     const id_profesor = id_user;
     const estatus = 'Habilitado';
     const id = grupo+fecha_registro.slice(0,4)+fecha_registro.slice(5,7)+id_profesor ; 
     //console.log(id);
-    if(grupo == '' || fecha_registro == ''){
-        alert('Ingrese nombre del grupo y fecha de registro');
+    if(grupo == ''){
+        alert('Ingrese nombre del grupo');
     }else{
         db.collection("Grupos").doc(id).set({
             grupo,
@@ -60,7 +61,6 @@ function crearGrupo(){
         })
         .then(() => {
             document.getElementById('nombre-grupo').value = '';
-            document.getElementById('fecha-registro').value = '';
             getGrupos();
             alert('Grupo '+grupo+' creado con exito');
         })
@@ -121,53 +121,25 @@ function verAlumnos(id_grupo){
     });
 }
 
-function desGrupo(id_grupo){
-    db.collection("Grupos").doc(id_grupo).update({
-        estatus: 'Deshabilitado'
-    })
-    .then(() => {
-        getGrupos();
-        alert('Grupo '+id_grupo.slice(0,4)+' deshabilitado con exito');
-    })
-    .catch((error) => {
-        console.error("Error writing document: ", error);
-    });
-}
-
-
-function getAllGrupos(){
-    const check = document.getElementById('ver-todos');
-    if(check.checked){
-        db.collection("Grupos").where('id_profesor','==',id_user)
-        .get()
-        .then((querySnapshot) => {
-            let txt = `           
-            <tr style="text-align: center;">
-                <th>Fecha de registro</th>
-                <th>Fecha de registro</th>
-                <th></th>
-            </tr>
-            `;
-            querySnapshot.forEach((doc) => {
-                txt += `
-                <tr style="text-align: center;" id="${doc.id}">
-                <td>${doc.data().fecha_registro}</td>
-                <td>${doc.data().grupo}</td>
-                <td><button onclick="verAlumnos('${doc.id}')">Ver Alumnos</button><br>
-                </tr>
-                `;
-                
-                //console.log(doc.id, " => ", doc.data());
-            });
-            document.getElementById('tabla-grupos').innerHTML =  txt;
+async function eliminarGrupo(id_grupo){
+   
+    const estudiantes = await db.collection("Estudiantes").where("id_grupo", "==", id_grupo).get();
+    estudiantes.forEach(async (doc) =>{
+        await db.collection("Bieps").doc(doc.id).delete();
+        const evidencias = await db.collection("Evidencias").where("Correo", "==", doc.id).get();
+        evidencias.forEach(async (doc2) => {
+            await db.collection("Evidencias").doc(doc2.id).delete();
             
-        })
-        .catch((error) => {
-                console.log("Error getting documents: ", error);
-        });  
-    }else{
-        getGrupos();
-    }
+        });
+        const habitos = await db.collection("Habitos_Asignados").where("Correo", "==", doc.id).get();
+        habitos.forEach(async (doc3) => {
+            await db.collection("Habitos_Asignados").doc(doc3.id).delete();
+        });
+        await db.collection("Estudiantes").doc(doc.id).delete();
+    });
+    await db.collection("Grupos").doc(id_grupo).delete();
+    getGrupos();
+    alert('Grupo '+id_grupo.slice(0,4)+' Eliminado con exito');
 }
 
 function regresar(){
@@ -198,4 +170,16 @@ function eliminarAlumno(id){
     }).catch((error) => {
         console.error("Error removing document: ", error);
     });
+}
+
+
+function getFecha(){
+    let now = new Date();
+    let month = (now.getMonth() + 1);               
+    let day = now.getDate();
+    if (month < 10) 
+        month = "0" + month;
+    if (day < 10) 
+        day = "0" + day;
+    return now.getFullYear() + '-' + month + '-' + day;
 }

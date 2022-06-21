@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="../public/css/estilos_pagprin.css">
-    <link rel="stylesheet" href="../public/css/estilos-tablas.css">
-    <title>Asignar habitos</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/estilos_pagprin.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/estilos-tablas.css') }}">
+    <title>Validar Evidencia</title>
     <style>
         div {
             text-align: center;
@@ -45,49 +45,40 @@
 <body>
 
     <header class="header" id="inicio">
-        <img class="hamburguer" src="../public/img/hamburguesa.svg" alt="">
+        <img class="hamburguer" src="{{ url_for('static',filename='img/hamburguesa.svg') }}" alt="">
         <nav class="menu-navegacion">
-            <a href="./students.html">Alumnos</a>
-            <a href="./assign.html">Asignar Habitos</a>
-            <a href="./validation.html">Validar Evidencia</a>
-            <a href="./progress.html">Consultar progreso</a>
+            <a href="/students">Alumnos</a>
+            <a href="/assign">Asignar Habitos</a>
+            <a href="/validation">Validar Evidencia</a>
+            <a href="/progress">Consultar progreso</a>
             <a onclick="logout()">Cerrar sesión</a>
         </nav>
         <div class="contenedor head">
-            <h1 class="titulo">Administrar Alumnos</h1>
-            <p class="copy">Crea y administra tus grupos para que se integren tus Alumnos</p>
+            <h1 class="titulo" id="head">Validar Evidencias</h1>
+            <p class="copy">Comprobemos que nuentros alumnos estan cumpliendo sus retos</p>
         </div>
 
     </header>
     <main>
         
         <div id='titulo'>
-            <h2 class="subtitulo">Grupos y Alumnos</h2>
-            <h2 class="subtitulo" id='grupo'></h2>
+            <h2 class="subtitulo">Evidencias</h2>
+            <h2 class="subtitulo" id='nombre-estudiante'></h2>
         </div>
         
         
         <div id="seleccion">
-            <input type="date" id="fecha-registro" style="width: 300px; height: 35px;" title="fecha de registro" >
-            <input type="text" id="nombre-grupo" value="" placeholder="Nombre del grupo" style="width: 300px; height: 35px;">
-            <button onclick="crearGrupo()">Crear grupo</button>
-            <br><br>
-            <label for="ver-todos">Ver todos</label>
-            <input type="checkbox" name="ver-todos" id="ver-todos" style="width: 20px; height: 20px;" onclick="getAllGrupos()">
-            
+            <select name="grupo" id="select-grupo" onchange="getAlumnos()"></select>
+            <select  id="select-alumno" onchange="getHabitosAsignados()"></select>
+            <select  id="select-habito" onchange="getEvidencias()"></select>
         </div>
-        <div id="regresar" style="display: none;">
-            <button onclick="regresar()">regresar</button>
-        </div>
-        <table id="tabla-grupos" style="display: none;">
+
+    
+
+        <table id="tabla-evidencias" style=" margin: auto;">
             
         </table>
 
-        <table id="tabla-alumnos" style="display: none; margin: auto;">
-            
-        </table>
-
-        
         <br><br><br>
     </main>
     <footer id="footer">
@@ -115,13 +106,11 @@
     <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-firestore.js"></script>
-    <script src="../method/conecction.js"></script>
-    <script src="../method/student.js"></script>
-    <script src="../public/js/menu-index.js"></script>
-    <script src="../public/js/lightbox-index.js"></script>
+    <script src="{{ url_for('static',filename='method/conecction.js') }}"></script>
+    <script src="{{ url_for('static',filename='method/validation.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/menu-index.js') }}" ></script>
+    <script src="{{ url_for('static',filename='js/lightbox-index.js') }}"></script>
 
 </body>
 
 </html>
-
-

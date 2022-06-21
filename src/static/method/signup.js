@@ -19,13 +19,13 @@ btn_signup.onclick = function(){
         .then(() => {
             document.cookie = "id_user=" + employee_number;
             pass = 0;
+            location.href = '/';
         })
         .catch((error) => {
-            console.error("Error writing document: ", error);
+            alert("Error writing document: ", error);
         });
 
         var user = userCredential.user;
-        location.href = '../view/index.html';
         //console.log("user");
     })
     .catch((error) => {
@@ -37,6 +37,6 @@ btn_signup.onclick = function(){
 
 app.auth().onAuthStateChanged((user) => {
     if (user && pass===0) {
-        location.href = './index.html';
+        location.href = '/';
     } 
 });

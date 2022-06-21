@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/estilos_pagprin.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/estilos-tablas.css') }}">
+    <title>Asignar habitos</title>
+    <style>
+        div {
+            text-align: center;
+            margin: 50px;
+        }
+
+        select{
+            border: 1px solid rgba(128, 128, 128, 0.5);
+            padding: 5px;
+            height: 30px;
+            color: black;
+            border-radius: 5px;
+            background-color: white;
+        }
+
+        button{
+            padding: 5px;
+            margin: 15px;
+            border-color: rgb(42, 131, 247);
+            background-color: white;
+            border-radius: 5px;
+            font-size: 15px;
+        }
+
+        button:hover{
+            background-color: rgb(42, 131, 247);
+            color: white;
+            transition: 0.3s;
+        }
+
+        a{
+            text-decoration: none;
+            color: rgb(87, 87, 87);
+        }
+
+        a:hover{
+            color: #1c0355;
+            cursor: pointer;
+        }
+        
+    </style>
+</head>
+
+<body>
+
+    <header class="header" id="inicio">
+        <img class="hamburguer" src="{{ url_for('static',filename='img/hamburguesa.svg') }}" alt="">
+        <nav class="menu-navegacion">
+            <a href="/students">Alumnos</a>
+            <a href="/assign">Asignar Habitos</a>
+            <a href="/validation">Validar Evidencia</a>
+            <a href="/progress">Consultar progreso</a>
+            <a onclick="logout()">Cerrar sesión</a>
+        </nav>
+        <div class="contenedor head" >
+            <h1 class="titulo" id="head">Asignar Hábitos</h1>
+            <p class="copy">Asignemos nuevos hábitos, asignamos nuevos retos</p>
+        </div>
+
+    </header>
+    <main>
+        <div><a href="/assign/student">Asignar Habito Estudiante &#187 </a> </div>
+        <div id='titulo'>
+            <h2 class="subtitulo" id="head">Asignar hábitos Grupal</h2>
+            <h2 class="subtitulo" id='nombre-estudiante'></h2>
+        </div>
+                 
+        <div id="seleccion" style="margin-bottom: 0;">
+            <select name="grupo" id="select-grupo" ></select>
+            <select onchange="getHabitos()"  id="select-grupo-habitos" ></select>
+            <select id="select-habito"> </select>
+        </div>
+        <table style="text-align: center; margin-top: 0;">
+            <td style="width: 25%;">
+                <label for="">Fecha de inicio</label>
+                <input id="Fecha-de-inicio" type="date" style="height: 30px;">
+            </td>
+            <td style="width: 25%;">
+                
+                Cada <input id="Periodo" type="number" style="width: 35px;height: 30px;" value="1"> días
+            </td>
+            <td style="width: 25%;">
+                por <input id="Dias" type="number" style="width: 35px;height: 30px;" value="21"> días
+            </td>
+            <td style="width: 25%;">
+                <label for="">Comentarios</label>
+                <textarea name="" id="Comentarios" cols="30" rows="5"></textarea>
+            </td>
+            
+        </table>
+        <div style="margin-top: 0;">
+            <button onclick="asignarHabito()">Asignar</button>
+            
+        </div>
+        <br><br><br>
+    </main>
+    <footer id="footer">
+        <div class="contenedor footer-content">
+            <font color="white">
+                <h2 class="brand" color="white">Contactanos</h2>
+            </font>
+            <font color="white">
+                <p>Si tienes dudas o sugerencias que nos quieras compartir te dejamos nuestras redes sociales</p>
+            </font>
+            <div class="social-media">
+                <a href="/" class="social-media-icon">
+                    <i class='bx bxl-facebook'></i>
+                </a>
+                <a href="/" class="social-media-icon">
+                    <i class='bx bxl-twitter'></i>
+                </a>
+                <a href="/" class="social-media-icon">
+                    <i class='bx bxl-instagram'></i>
+                </a>
+            </div>
+        </div>
+        <div class="line"></div>
+    </footer>
+    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-firestore.js"></script>
+    <script src="{{ url_for('static',filename='method/conecction.js') }}"></script>
+    <script src="{{ url_for('static',filename='method/assign-group.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/menu-index.js') }}" ></script>
+    <script src="{{ url_for('static',filename='js/lightbox-index.js') }}"></script>
+</body>
+
+</html>

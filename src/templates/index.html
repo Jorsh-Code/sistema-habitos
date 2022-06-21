@@ -3,18 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página web</title>
-    <link rel="stylesheet" href="../public/css/estilos_pagprin.css">
+    <title>Habitos</title>
+
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/estilos_pagprin.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
     
     <header class="header" id="inicio">
-        <img class="hamburguer" src="../public/img/hamburguesa.svg" alt="">
+        <img class="hamburguer" src="{{ url_for('static',filename='img/hamburguesa.svg') }}" alt="">
         <nav class="menu-navegacion" id="menu-navegacion">
-                <a href="./signin.html">Iniciar sesión</a>
-                <a href="./signup.html">Registrarme</a>
+                <a href="/signin">Iniciar sesión</a>
+                <a href="/signup">Registrarme</a>
         </nav>
         <div class="contenedor head">
             <h1 class="titulo">Bienvenido de nuevo</h1>
@@ -27,20 +28,20 @@
             <div class="contenedor">
                 <h2 class="subtitulo">Portafolio de Actividades</h2>
                 <div class="contenedor-galeria">
-                    <img src="../public/img/uno.jpg" class="img-galeria" alt="Hola">
-                    <img src="../public/img/dos.jpg" class="img-galeria" alt="">
-                    <img src="../public/img/tres.jpg" class="img-galeria" alt="">
+                    <img src="{{ url_for('static',filename='img/uno.jpg') }}" class="img-galeria" alt="Hola">
+                    <img src="{{ url_for('static',filename='img/dos.jpg') }}" class="img-galeria" alt="">
+                    <img src="{{ url_for('static',filename='img/tres.jpg') }}" class="img-galeria" alt="">
                 </div>
 		<section class="contenedor" id="expertos">
             <section class="experts">
                 <div class="cont-expert">
-                    <a class="n-expert" href="../Asignarhabito/index.html">Asignar Habitos</a> 
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates, sit culpa? Ut nesciunt, eum consectetur minima deserunt sunt quam iure, nemo non, natus pariatur. Consequatur at tempore vitae nam veritatis.
                 </div>
                 <div class="cont-expert">
-                    <a class="n-expert" href="../validarevidencia/index.html">Validar Evidencia<a>
+                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloribus aspernatur expedita voluptate illo tempora. Praesentium optio error libero provident unde amet illo perspiciatis consectetur, odit, excepturi, dolorum ex aliquid quibusdam.
                 </div>
                 <div class="cont-expert">
-                    <a class="n-expert" href="../consultap/consulta.html">Consultar Progreso de los Estudiantes</a>
+                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tenetur ipsum, libero sint quo sapiente alias necessitatibus, illum deserunt, velit non quaerat aspernatur amet voluptatibus perferendis cum earum nam maxime. Ipsum.
                 </div>
             </section>
         </section>
@@ -49,7 +50,7 @@
             </div>
         </section>
         <div class="imagen-light">
-            <img src="../public/img/close.svg" alt="" class="close">
+            <img src="{{ url_for('static',filename='img/close.svg') }}" alt="" class="close">
             <img src="" alt="" class="agregar-imagen">
         </div>
     </main>
@@ -60,13 +61,13 @@
                     <p>Si tienes dudas o sugerencias que nos quieras compartir te dejamos nuestras redes sociales</p>
                 </div>
                 <div class="social-media">
-                    <a href="./" class="social-media-icon">
+                    <a href="/" class="social-media-icon">
                         <i class='bx bxl-facebook'></i>
                     </a>
-                    <a href="./" class="social-media-icon">
+                    <a href="/" class="social-media-icon">
                         <i class='bx bxl-twitter' ></i>
                     </a>
-                    <a href="./" class="social-media-icon">
+                    <a href="/" class="social-media-icon">
                         <i class='bx bxl-instagram' ></i>
                     </a>
                 </div>
@@ -75,9 +76,9 @@
     </footer>
     <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-auth.js"></script>
-    <script src="../method/conecction.js"></script>
-    <script src="../method/index.js"></script>
-    <script src="../public/js/menu-index.js"></script>
-    <script src="../public/js/lightbox-index.js"></script>
+    <script src="{{ url_for('static',filename='method/conecction.js') }}"></script>
+    <script src="{{ url_for('static',filename='method/index.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/menu-index.js') }}" ></script>
+    <script src="{{ url_for('static',filename='js/lightbox-index.js') }}"></script>
 </body>
 </html>

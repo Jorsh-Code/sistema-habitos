@@ -11,12 +11,13 @@ app.auth().onAuthStateChanged((user) => {
                 //console.log(doc.id, " => ", doc.data());
             });
             document.getElementById('select-grupo').innerHTML =  txt;
+            location.href = '#head';
         })
         .catch((error) => {
             console.log("Error getting documents: ", error);
         });   
     }else{
-        location.href = './index.html';
+        location.href = '/';
     }
 });
 
@@ -27,7 +28,7 @@ function getAlumnos(...args){
     db.collection("Estudiantes").where("id_grupo", "==", grupo).where('Profesor','==',id_user)
     .get()
     .then((querySnapshot) => {
-        let txt = "";
+        let txt = '<option>-Elija un alumno-</option>';
         querySnapshot.forEach((doc) => {
             txt += `<option id="${doc.id}" value="${doc.id}">${doc.data().Nombre}</option>`;
             //console.log(doc.id, " => ", doc.data());
@@ -42,6 +43,7 @@ function getAlumnos(...args){
 function getDataEstudiantes(){
     const id_doc = document.getElementById('select-alumno').value;
     document.getElementById('nombre-estudiante').innerText = document.getElementById(id_doc).textContent;
+    document.getElementById('regresar').style.display = 'block';
     getBieps(id_doc);
     getGruposHabitos(id_doc);
     getHabitosAsignados(id_doc);
@@ -110,9 +112,6 @@ function getHabitos(...args){
         let x = 0;
         for(hab in data.data()){
             txt += `<option value="${data.data()[hab].Id_habito+'-'+hab+'-'+id_doc}">${hab}</option>`;
-           /* x++;
-            console.log(data.data()[hab].Id_habito+'  '+hab);
-            if(x==10)break;*/
         }
         document.getElementById('select-habito').innerHTML = txt;   
     })
@@ -126,8 +125,7 @@ function asinarHabito(correo){
     const id_doc = correo+'-'+id_hab[0];
     const Nombre = id_hab[1];
     const Dias = 21;
-    const Fecha_de_inicio = '2022-01-01';
-    
+    const Fecha_de_inicio = getFecha();
     let Descripcion = '';
     db.collection("Habitos").doc(id_hab[2])
     .get()
@@ -145,9 +143,11 @@ function asinarHabito(correo){
             Dias,
             Fecha_de_inicio,
             Nombre,
-            Periodo: 'Cada 1 día' 
+            Periodo: '1',
+            Id_Hab: id_hab[0] 
         })
         .then(() => {
+            notificacion(correo,Nombre,'Habito asignado');
             getHabitosAsignados(correo);
         })
         .catch((error) => {
@@ -180,12 +180,12 @@ function getHabitosAsignados(correo){
             querySnapshot.forEach((doc) => {
                 txt += `
                 <tr style="text-align: center;" id="${doc.id}">
-                <td>${doc.data().Nombre}</td>
-                <td style="text-align: justify;">${doc.data().Descripcion}</td>
-                <td><input type="text" value="${doc.data().Dias}"></td>
-                <td><input type="text" value="${doc.data().Periodo} "></td>
-                <td><input type="text" value="${doc.data().Fecha_de_inicio}"></td>
-                <td><input type="text" value="${doc.data().Comentarios}"></td>
+                <td >${doc.data().Nombre}</td>
+                <td ><div style="text-align: justify; height: 150px; width: 150px; overflow: scroll; margin:0">${doc.data().Descripcion}</div></td>
+                <td>Por <input type="number" style="width: 35px;height: 30px;" value="${doc.data().Dias}">días</td>
+                <td>Cada <input type="number" style="width: 35px;height: 30px;" value="${doc.data().Periodo}">días</td>
+                <td><input type="date" value="${doc.data().Fecha_de_inicio}"></td>
+                <td><textarea style="padding:5px" name="" id="Comentarios" cols="30" rows="5" >${doc.data().Comentarios}</textarea></td>
                 <td>
                 <button onclick="editarHabito('${doc.id}')">Actualizar</button>
                 <button onclick="eliminarHabito('${doc.id}')">Eliminar</button></td>
@@ -215,12 +215,12 @@ function editarHabito(id_doc){
     const padre = document.getElementById(id_doc);
     const Nombre = padre.children[0].textContent;
     const Descripcion = padre.children[1].textContent;
-    const Dias = padre.children[2].firstChild.value;
-    const Periodo = padre.children[3].firstChild.value;
+    const Dias = padre.children[2].children[0].value;
+    const Periodo = padre.children[3].children[0].value;
     const Fecha_de_inicio =  padre.children[4].firstChild.value;
     const Comentarios =  padre.children[5].firstChild.value
     const Correo =  id_doc.split('-')[0];
-    console.log(Correo);
+    const Id_Hab = id_doc.split('-')[1];
     db.collection("Habitos_Asignados").doc(id_doc).set({
             Comentarios,
             Correo,
@@ -228,9 +228,11 @@ function editarHabito(id_doc){
             Dias,
             Fecha_de_inicio,
             Nombre,
-            Periodo 
+            Periodo,
+            Id_Hab
     })
     .then(() => {
+        notificacion(Correo,Nombre,'¡Se han hecho actualizaciones en un habito!');
         alert('Habito Actualizado');
         getHabitosAsignados(Correo);
     })
@@ -238,4 +240,39 @@ function editarHabito(id_doc){
         console.error("Error writing document: ", error);
     });
 
+}
+
+async function notificacion(correo,habito,titulo){
+    const alumno = await db.collection("Estudiantes").doc(correo).get();
+    const token  = alumno.data().Token;
+    fetch('https://fcm.googleapis.com/fcm/send',{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'key=AAAA6RTINRg:APA91bFWJDe3AZLJg4_bCJrEsUkGn8TVSf6S7RQMwpPM6mM54nvt_kobLq_u5rRTNeVNYY5ZpOf2JSOSk90YvvVEUB-4x-pvP-q0O7euLUVra9iKKXxm76ixjlGIg-PfrnBcGucCezVK '
+        },
+        body: JSON.stringify({
+            "to": token,
+            "notification": {
+                "title": titulo,
+                "body": habito 
+            }
+        })
+    }).then(res => res.json())
+      .then(data => {
+        console.log(data);
+    });
+    
+    
+}
+
+function getFecha(){
+    let now = new Date();
+    let month = (now.getMonth() + 1);               
+    let day = now.getDate();
+    if (month < 10) 
+        month = "0" + month;
+    if (day < 10) 
+        day = "0" + day;
+    return now.getFullYear() + '-' + month + '-' + day;
 }

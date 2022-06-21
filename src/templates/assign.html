@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="../public/css/estilos_pagprin.css">
-    <link rel="stylesheet" href="../public/css/estilos-tablas.css">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/estilos_pagprin.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/estilos-tablas.css') }}">
     <title>Asignar habitos</title>
     <style>
         div {
@@ -38,6 +38,17 @@
             color: white;
             transition: 0.3s;
         }
+
+        a{
+            text-decoration: none;
+            color: rgb(87, 87, 87);
+        }
+
+        a:hover{
+            color: #1c0355;
+            cursor: pointer;
+            border: none;
+        }
         
     </style>
 </head>
@@ -45,16 +56,16 @@
 <body>
 
     <header class="header" id="inicio">
-        <img class="hamburguer" src="../public/img/hamburguesa.svg" alt="">
+        <img class="hamburguer" src="{{ url_for('static',filename='img/hamburguesa.svg') }}" alt="">
         <nav class="menu-navegacion">
-            <a href="./students.html">Alumnos</a>
-            <a href="./assign.html">Asignar Habitos</a>
-            <a href="./validation.html">Validar Evidencia</a>
-            <a href="./progress.html">Consultar progreso</a>
+            <a href="/students">Alumnos</a>
+            <a href="/assign">Asignar Habitos</a>
+            <a href="/validation">Validar Evidencia</a>
+            <a href="/progress">Consultar progreso</a>
             <a onclick="logout()">Cerrar sesión</a>
         </nav>
-        <div class="contenedor head">
-            <h1 class="titulo">Asignar Hábitos</h1>
+        <div class="contenedor head" >
+            <h1 class="titulo" id="head">Asignar Hábitos</h1>
             <p class="copy">Asignemos nuevos hábitos, asignamos nuevos retos</p>
         </div>
 
@@ -66,20 +77,16 @@
             <h2 class="subtitulo" id='nombre-estudiante'></h2>
         </div>
         
+        <div id="regresar" style="display: none;"><a href="/assign">&#171 regresar</a> </div>
+         
         
         <div id="seleccion">
-            <select name="grupo" id="select-grupo" onchange="getAlumnos()"></select>
-            <select  id="select-alumno" onchange="getDataEstudiantes()"></select>
+            <a href="/assign/student" style="border: 1px solid gray; border-radius: 3px; padding: 5px;">Asignar habito alumnos</a>
+            <br><br>
+            <a href="/assign/group" style="border: 1px solid gray; border-radius: 3px; padding: 5px;">Asignar habito grupal</a>
         </div>
 
-        <table id="tabla-bieps" style="display: none;">
-            
-        </table>
-
-        <table id="tabla-habitos-asignados" style="display: none; margin: auto;">
-            
-        </table>
-
+      
 
         <br><br><br>
     </main>
@@ -92,13 +99,13 @@
                 <p>Si tienes dudas o sugerencias que nos quieras compartir te dejamos nuestras redes sociales</p>
             </font>
             <div class="social-media">
-                <a href="./" class="social-media-icon">
+                <a href="/" class="social-media-icon">
                     <i class='bx bxl-facebook'></i>
                 </a>
-                <a href="./" class="social-media-icon">
+                <a href="/" class="social-media-icon">
                     <i class='bx bxl-twitter'></i>
                 </a>
-                <a href="./" class="social-media-icon">
+                <a href="/" class="social-media-icon">
                     <i class='bx bxl-instagram'></i>
                 </a>
             </div>
@@ -108,11 +115,11 @@
     <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-firestore.js"></script>
-    <script src="../method/conecction.js"></script>
-    <script src="../method/assign.js"></script>
-    <script src="../public/js/menu-index.js"></script>
-    <script src="../public/js/lightbox-index.js"></script>
-
+    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-messaging.js"></script>
+    <script src="{{ url_for('static',filename='method/conecction.js') }}"></script>
+    <script src="{{ url_for('static',filename='method/assign.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/menu-index.js') }}" ></script>
+    <script src="{{ url_for('static',filename='js/lightbox-index.js') }}"></script>
 </body>
 
 </html>

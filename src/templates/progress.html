@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/estilos_pagprin.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/estilos-tablas.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.0/dist/chart.min.js"></script>
+    <title>Asignar habitos</title>
+    <style>
+        div {
+            text-align: center;
+            margin: auto;
+            margin-top: 20px;
+        }
+
+        select{
+            border: 1px solid rgba(128, 128, 128, 0.5);
+            padding: 5px;
+            height: 30px;
+            color: black;
+            border-radius: 5px;
+            background-color: white;
+        }
+
+        button{
+            padding: 5px;
+            margin: 15px;
+            border-color: rgb(42, 131, 247);
+            background-color: white;
+            border-radius: 5px;
+            font-size: 15px;
+        }
+
+        button:hover{
+            background-color: rgb(42, 131, 247);
+            color: white;
+            transition: 0.3s;
+        }
+        
+    </style>
+</head>
+
+<body>
+
+    <header class="header" id="inicio">
+        <img class="hamburguer" src="{{ url_for('static',filename='img/hamburguesa.svg') }}" alt="">
+        <nav class="menu-navegacion">
+            <a href="/students">Alumnos</a>
+            <a href="/assign">Asignar Habitos</a>
+            <a href="/validation">Validar Evidencia</a>
+            <a href="/progress">Consultar progreso</a>
+            <a onclick="logout()">Cerrar sesión</a>
+        </nav>
+        <div class="contenedor head">
+            <h1 class="titulo">Progreso de los Estudiantes</h1>
+            <p class="copy">Paso a paso y meta a meta</p>
+        </div>
+
+    </header>
+    <main>
+        
+        <div id='titulo'>
+            <h2 class="subtitulo">Pogreso</h2>
+            <h2 class="subtitulo" id='nombre-estudiante'></h2>
+        </div>
+        
+        <div id="seleccion-alumno">
+            <a href="" onclick="menuGrupal()">Progreso Grupal &#187 </a>
+            <br><br><br>
+            <select name="grupo" id="select-grupo" onchange="getAlumnos()"></select>
+            <select  id="select-alumno" onchange="getHabitosAsignados()"></select>
+            <select name="" id="select-habito" style="opacity: 0;" onchange="getEvidencias()"></select>
+        </div>
+        <div id="seleccion-grupal" style="display: none;">
+            <a href="" onclick="menuAlumno()">Progreso Grupal &#187 </a>
+            <br><br><br>
+            <select name="grupo" id="select-grupo" onchange="getAlumnos()"></select>
+            <select name="" id="select-habito" style="opacity: 0;" onchange="getEvidencias()"></select>
+        </div>
+        <div style="width: 300px;height: 300px; display: none;" id="canva">
+            
+        </div>
+        <br><br><br><br><br><br><br>
+    </main>
+    <footer id="footer">
+        <div class="contenedor footer-content">
+            <font color="white">
+                <h2 class="brand" color="white">Contactanos</h2>
+            </font>
+            <font color="white">
+                <p>Si tienes dudas o sugerencias que nos quieras compartir te dejamos nuestras redes sociales</p>
+            </font>
+            <div class="social-media">
+                <a href="./" class="social-media-icon">
+                    <i class='bx bxl-facebook'></i>
+                </a>
+                <a href="./" class="social-media-icon">
+                    <i class='bx bxl-twitter'></i>
+                </a>
+                <a href="./" class="social-media-icon">
+                    <i class='bx bxl-instagram'></i>
+                </a>
+            </div>
+        </div>
+        <div class="line"></div>
+    </footer>
+    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-firestore.js"></script>
+    <script src="{{ url_for('static',filename='method/conecction.js') }}"></script>
+    <script src="{{ url_for('static',filename='method/progress.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/menu-index.js') }}" ></script>
+    <script src="{{ url_for('static',filename='js/lightbox-index.js') }}"></script>
+
+</body>
+
+</html>

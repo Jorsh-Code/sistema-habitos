@@ -9,12 +9,11 @@ btn_signin.onclick = function() {
     .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
             document.cookie = "id_user=" + doc.data().employee_number;
-            
         });
         app.auth().signInWithEmailAndPassword(email, password)
         .then((userCredential) => {
             var user = userCredential.user;
-            location.href = '../view/index.html';
+            location.href = '/';
         })
         .catch((error) => {
             var errorCode = error.code;
@@ -30,6 +29,6 @@ btn_signin.onclick = function() {
 
 app.auth().onAuthStateChanged((user) => {
     if (user) {
-        location.href = './index.html';
+        location.href = '/';
     } 
 });
