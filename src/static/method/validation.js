@@ -17,7 +17,7 @@ app.auth().onAuthStateChanged((user) => {
             console.log("Error getting documents: ", error);
         });   
     }else{
-        location.href = './index.html';
+        location.href = '/';
     }
 });
 
