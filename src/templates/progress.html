@@ -41,6 +41,15 @@
             transition: 0.3s;
         }
         
+        a{
+            text-decoration: none;
+            color: rgb(87, 87, 87);
+        }
+
+        a:hover{
+            color: #1c0355;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -56,7 +65,7 @@
             <a onclick="logout()">Cerrar sesión</a>
         </nav>
         <div class="contenedor head">
-            <h1 class="titulo">Progreso de los Estudiantes</h1>
+            <h1 class="titulo" id="head">Progreso de los Estudiantes</h1>
             <p class="copy">Paso a paso y meta a meta</p>
         </div>
 
@@ -69,17 +78,17 @@
         </div>
         
         <div id="seleccion-alumno">
-            <a href="" onclick="menuGrupal()">Progreso Grupal &#187 </a>
+            <a  onclick="menuGrupal()">Progreso Grupal &#187 </a>
             <br><br><br>
             <select name="grupo" id="select-grupo" onchange="getAlumnos()"></select>
             <select  id="select-alumno" onchange="getHabitosAsignados()"></select>
             <select name="" id="select-habito" style="opacity: 0;" onchange="getEvidencias()"></select>
         </div>
         <div id="seleccion-grupal" style="display: none;">
-            <a href="" onclick="menuAlumno()">Progreso Grupal &#187 </a>
+            <a onclick="menuAlumno()">Progreso Alumnos &#187 </a>
             <br><br><br>
-            <select name="grupo" id="select-grupo" onchange="getAlumnos()"></select>
-            <select name="" id="select-habito" style="opacity: 0;" onchange="getEvidencias()"></select>
+            <select name="grupo" id="select-grupo-grupal" onchange="getHabitosGrupal()"></select>
+            <select name="" id="select-habito-grupal"  onchange="getEvidenciasGrupal()"></select>
         </div>
         <div style="width: 300px;height: 300px; display: none;" id="canva">
             

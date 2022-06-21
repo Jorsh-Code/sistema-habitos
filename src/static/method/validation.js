@@ -109,7 +109,8 @@ function getEvidencias(){
                txt += `<td>${doc.data().Nombre_habito}</td>
                 <td>${doc.data().Fecha_de_registro}</td>
                 <td><textarea style="padding:5px" name="" id="Comentarios" cols="30" rows="5" ></textarea></td>
-                <td><button onclick="validarEvidencia('${doc.id}')">Validar</button><br></td>
+                <td><button onclick="validarEvidencia('${doc.id}','${doc.data().Fecha_de_registro}','${doc.data().Nombre_habito}')">Validar</button><br></td>
+                <td><button onclick="rechazarEvidencia('${doc.id}','${doc.data().Fecha_de_registro}','${doc.data().Nombre_habito}')">Rechazar</button><br></td>
                 </tr>
                 `;
             }
@@ -122,15 +123,16 @@ function getEvidencias(){
     }); 
 }
 
-function validarEvidencia(id){
+function validarEvidencia(id,fecha,nombre_hab){
     const arr = id.split('-');
     const id_doc = arr[0]+'-'+arr[1]+'-'+arr[2];
-    console.log(document.getElementById('comentario-evidencia').value);
+    //notificacion(arr[0],'Fecha de registro: '+fecha,'Evidencia de -'+nombre_hab+'- validada');
     db.collection("Evidencias").doc(id_doc).update({
         Estatus: 'Valido',
-        Comentarios: document.getElementById('comentario-evidencia').value
+        Comentarios: document.getElementById('Comentarios').value
     })
     .then(() => {
+        notificacion(arr[0],'Fecha de registro: '+fecha,'Evidencia de -'+nombre_hab+'- validada');
         alert('Evidencia Validada');
         getEvidencias(id.split('-')[0]);
 
@@ -138,4 +140,43 @@ function validarEvidencia(id){
     .catch((error) => {
         console.error("Error writing document: ", error);
     });
+}
+
+function rechazarEvidencia(id,fecha,nombre_hab){
+    const arr = id.split('-');
+    const id_doc = arr[0]+'-'+arr[1]+'-'+arr[2];
+    //notificacion(arr[0],'Fecha de registro: '+fecha,'Evidencia de -'+nombre_hab+'- validada');
+    db.collection("Evidencias").doc(id_doc).delete().then(() => {
+        notificacion(arr[0],'Fecha de registro: '+fecha,'Evidencia de -'+nombre_hab+'- Rechzada');
+        alert('Evidencia Rechazada');
+        getEvidencias(id.split('-')[0]);
+    })
+    .catch((error) => {
+        console.error("Error writing document: ", error);
+    });
+}
+
+
+async function notificacion(correo,cuerpo,titulo){
+ 
+    const alumno = await db.collection("Estudiantes").doc(correo).get();
+    const token  = alumno.data().Token;
+    fetch('https://fcm.googleapis.com/fcm/send',{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'key=AAAA6RTINRg:APA91bFWJDe3AZLJg4_bCJrEsUkGn8TVSf6S7RQMwpPM6mM54nvt_kobLq_u5rRTNeVNYY5ZpOf2JSOSk90YvvVEUB-4x-pvP-q0O7euLUVra9iKKXxm76ixjlGIg-PfrnBcGucCezVK '
+        },
+        body: JSON.stringify({
+            "to": token,
+            "notification": {
+                "title": titulo,
+                "body": cuerpo
+            }
+        })
+    }).then(res => res.json())
+      .then(data => {
+        //console.log(data);
+    });
+       
 }
